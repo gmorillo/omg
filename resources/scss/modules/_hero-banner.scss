@@ -25,7 +25,6 @@ html {
 
 body {
 	background-color: #23272A;
-	overflow: hidden;
 }
 
 header {
@@ -132,6 +131,9 @@ main {
 	position: relative;
 	width: 100%;
 	height: 100vh;
+	@media(max-width: 600px){
+		height: 60vh;
+	}
 }
 
 #slider {
@@ -234,7 +236,7 @@ main {
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
-	right: 2vw;
+	right: 30px;
 	z-index: 6;
 
 	button {
