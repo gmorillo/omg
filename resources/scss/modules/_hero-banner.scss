@@ -131,9 +131,10 @@ main {
 	position: relative;
 	width: 100%;
 	height: 100vh;
-	@media(max-width: 600px){
+	overflow-x: hidden;
+	/* @media(max-width: 600px){
 		height: 60vh;
-	}
+	} */
 }
 
 #slider {
@@ -142,6 +143,9 @@ main {
 	height: 100%;
 	margin: 0 auto;
 	position: relative;
+	@media(max-width: 768px){
+		margin: -110px auto;
+	}
 
 	canvas {
 		width: 150%;
@@ -151,6 +155,11 @@ main {
 		left: 50%;
 		transform: translate(-50%, -50%);
 		z-index: 2;
+		@media(max-width: 768px){
+			top: 60%;
+			left: 15%;
+			transform: translate(0%, -50%);
+		}
 	}
 
 	img {
@@ -174,6 +183,9 @@ main {
 
 #slider-content {
 	padding: 0 10px;
+	@media(max-width: 768px){
+		margin-top: 50%
+	}
 
 	h2 {
 		font-family: 'acta-display', serif;
@@ -183,6 +195,10 @@ main {
 		color: white;
 		line-height: 30px;
 		margin: 20px 0 60px;
+		@media(max-width: 768px){
+			font-size: 69px;
+			line-height: 69px;
+		}
 
 		@media screen and (min-width: 800px) {
 			font-size: 110px;
@@ -202,6 +218,11 @@ main {
 		color: #88888a;
 		text-transform: uppercase;
 		position: relative;
+
+		@media(max-width: 768px){
+			font-size: 30px;
+			line-height: 30px;
+		}
 
 		@media screen and (min-width: 800px) {
 			font-size: 13px;

@@ -45,24 +45,32 @@ const displacementSlider = function(opts) {
     let renderWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     let renderHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-    let renderW, renderH;
+    let imageAspectRatio = opts.images[0].naturalWidth / opts.images[0].naturalHeight;
+    let screenAspectRatio = window.innerWidth / window.innerHeight;
 
-    if( renderWidth > canvasWidth ) {
-        renderW = renderWidth;
+    let originalRenderW, originalRenderH;
+
+    if (screenAspectRatio > imageAspectRatio) {
+        originalRenderW = window.innerWidth;
+        originalRenderH = window.innerWidth / imageAspectRatio;
     } else {
-        renderW = canvasWidth;
+        originalRenderW = window.innerHeight * imageAspectRatio;
+        originalRenderH = window.innerHeight;
     }
 
-    renderH = canvasHeight;
+    // Reducir el tamaño en un 20%
+    let reductionFactor = 0.8; // 1 - 0.20
+    let newRenderW = originalRenderW * reductionFactor;
+    let newRenderH = originalRenderH * reductionFactor;
 
     let renderer = new THREE.WebGLRenderer({
         antialias: false,
     });
 
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setClearColor( 0x23272A, 1.0 );
-    renderer.setSize( renderW, renderH );
-    parent.appendChild( renderer.domElement );
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setClearColor(0x23272A, 1.0);
+    renderer.setSize(newRenderW, newRenderH);
+    parent.appendChild(renderer.domElement);
 
     let loader = new THREE.TextureLoader();
     loader.crossOrigin = "anonymous";
@@ -196,7 +204,114 @@ const displacementSlider = function(opts) {
                 clearInterval(autoChangeInterval);
             });
 
+            el.addEventListener('touchmove', function(event) {
+                event.preventDefault();
+                // ...
+            });
+    
+            el.addEventListener('touchend', function(event) {
+                event.preventDefault();
+                // ...
+            });
+
         });
+
+        // Agrega evento de swipe para cambiar la diapositiva
+    let swipeStartX, swipeStartY;
+    let swipeThreshold = 50;
+
+    document.getElementById('slider').addEventListener('touchstart', function(event) {
+        swipeStartX = event.touches[0].clientX;
+        swipeStartY = event.touches[0].clientY;
+    });
+
+    document.getElementById('slider').addEventListener('touchmove', function(event) {
+        event.preventDefault();
+    });
+
+    document.getElementById('slider').addEventListener('touchend', function(event) {
+        let swipeEndX = event.changedTouches[0].clientX;
+        let swipeEndY = event.changedTouches[0].clientY;
+    
+        let swipeDistanceX = swipeEndX - swipeStartX;
+        let swipeDistanceY = swipeEndY - swipeStartY;
+    
+        if (Math.abs(swipeDistanceX) > swipeThreshold) {
+            if (swipeDistanceX > 0) {
+                // Cambia a la diapositiva anterior
+                currentSlideIndex = (currentSlideIndex - 1 + sliderImages.length) % sliderImages.length;
+            } else {
+                // Cambia a la diapositiva siguiente
+                currentSlideIndex = (currentSlideIndex + 1) % sliderImages.length;
+            }
+    
+            // Actualiza la paginación
+            document.getElementById('pagination').querySelectorAll('.active')[0].className = '';
+            document.querySelectorAll(`[data-slide="${currentSlideIndex}"]`)[0].className = 'active';
+    
+            mat.uniforms.nextImage.value = sliderImages[currentSlideIndex];
+            mat.uniforms.nextImage.needsUpdate = true;
+    
+            TweenLite.to(mat.uniforms.dispFactor, 1, {
+                value: 1,
+                ease: 'Expo.easeInOut',
+                onComplete: function() {
+                    mat.uniforms.currentImage.value = sliderImages[currentSlideIndex];
+                    mat.uniforms.currentImage.needsUpdate = true;
+                    mat.uniforms.dispFactor.value = 0.0;
+                }
+            });
+    
+            // Actualiza el título y el estado de la diapositiva
+            let slideTitleEl = document.getElementById('slide-title');
+            let slideStatusEl = document.getElementById('slide-status');
+            let nextSlideTitle = document.querySelectorAll(`[data-slide-title="${currentSlideIndex}"]`)[0].innerHTML;
+            let nextSlideStatus = document.querySelectorAll(`[data-slide-status="${currentSlideIndex}"]`)[0].innerHTML;
+    
+            TweenLite.fromTo(slideTitleEl, 0.5, {
+                autoAlpha: 1,
+                filter: 'blur(0px)',
+                y: 0
+            }, {
+                autoAlpha: 0,
+                filter: 'blur(10px)',
+                y: 20,
+                ease: 'Expo.easeIn',
+                onComplete: function() {
+                    slideTitleEl.innerHTML = nextSlideTitle;
+    
+                    TweenLite.to(slideTitleEl, 0.5, {
+                        autoAlpha: 1,
+                        filter: 'blur(0px)',
+                        y: 0,
+                    })
+                }
+            });
+    
+            TweenLite.fromTo(slideStatusEl, 0.5, {
+                autoAlpha: 1,
+                filter: 'blur(0px)',
+                y: 0
+            }, {
+                autoAlpha: 0,
+                filter: 'blur(10px)',
+                y: 20,
+                ease: 'Expo.easeIn',
+                onComplete: function() {
+                    slideStatusEl.innerHTML = nextSlideStatus;
+    
+                    TweenLite.to(slideStatusEl, 0.5, {
+                        autoAlpha: 1,
+                        filter: 'blur(0px)',
+                        y: 0,
+                        delay: 0.1,
+                    })
+                }
+            });
+        }
+        clearInterval(autoChangeInterval);
+        autoChangeInterval = setInterval(autoChangeSlide, 5000);
+    });
 
     };
 
@@ -289,10 +404,11 @@ const displacementSlider = function(opts) {
 
     let animate = function() {
         requestAnimationFrame(animate);
-
+    
+        renderer.setSize(newRenderW, newRenderH);
         renderer.render(scene, camera);
-    };
-    animate();
+      };
+      animate();
 };
 
 imagesLoaded( document.querySelectorAll('img'), () => {
