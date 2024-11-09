@@ -1,0 +1,22 @@
+{
+  "name": "omg",
+  "version": "1.0.0",
+  "description": "OMG BURGERS",
+  "main": "index.js",
+  "scripts": {
+    "compile": "npm-run-all compile:*",
+    "compile:sass": "node-sass  resources/scss/app.scss public/css/app.css --watch"
+  },
+  "author": "Guillemro Morillo",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "node-sass": "^9.0.0",
+    "npm-run-all": "^4.1.5",
+    "uglify-js": "^3.19.3"
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^5.2.10",
+    "uglifyjs": "^2.4.11"
+  }
+}
