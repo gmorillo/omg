@@ -71,3 +71,12 @@ p {
 
 
 
+
+
+
+carta-videos {
+    display: flex;
+    @media (max-width: 768px) {
+      display: block;
+    }
+}

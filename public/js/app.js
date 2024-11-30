@@ -462,17 +462,27 @@ const videos = document.querySelectorAll(".video-container video");
 const hoverTexts = document.querySelectorAll(".video-container .hover-text");
 
 videos.forEach((video, index) => {
-  const hoverText = hoverTexts[index]; // Obtener el hoverText correspondiente al video
-  video.addEventListener("mouseenter", () => {
-    video.play();
-    hoverText.classList.remove("active");
+    const hoverText = hoverTexts[index]; // Obtener el hoverText correspondiente al video
+  
+    video.addEventListener("mouseenter", () => {
+      video.play();
+      hoverText.classList.remove("active");
+    });
+  
+    video.addEventListener("mouseleave", () => {
+      video.pause();
+      hoverText.classList.add("active");
+    });
+  
+    // Add autoplay attribute for mobile devices
+    if (isMobile()) {
+      video.setAttribute("autoplay", "");
+    }
   });
-
-  video.addEventListener("mouseleave", () => {
-    video.pause();
-    hoverText.classList.add("active");
-  });
-});
+  
+  function isMobile() {
+    return /Mobi|Android/i.test(navigator.userAgent);
+  }
 
 // Para el botón de "ver más" y "ver menos"
 const btns = document.querySelectorAll(".boton");

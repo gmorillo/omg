@@ -9625,6 +9625,12 @@ p {
   color: white;
   font-weight: 700; }
 
+carta-videos {
+  display: flex; }
+  @media (max-width: 768px) {
+    carta-videos {
+      display: block; } }
+
 .bangers-regular {
   font-family: "Bangers", system-ui;
   font-weight: 400;
