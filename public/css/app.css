@@ -9562,6 +9562,69 @@ main {
     opacity: 1;
     transform: scale3d(0.5, 0.5, 1); } }
 
+.video-container {
+  position: relative; }
+
+.video-container {
+  overflow: hidden; }
+  .video-container .hover-text {
+    bottom: 0;
+    padding: 10px 20px 20px;
+    width: 100%;
+    background: linear-gradient(180deg, #041a1700, #041a1780 30%, #041a17b3 60%, #041a17cc); }
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; }
+
+.leer-mas {
+  display: block;
+  opacity: 0;
+  max-height: 0;
+  transition: all 0.5s; }
+
+.leer-mas_open {
+  display: block;
+  opacity: 1;
+  max-height: 500px; }
+
+.wrapper {
+  width: 40rem;
+  /*PUEDES CAMBIAR PARA MODIFICAR EL ANCHO DEL DIV PADRE*/
+  color: #000;
+  margin: auto; }
+
+.contenedor {
+  padding: 0.25rem; }
+
+.titulo {
+  font-size: 1.7em;
+  margin-bottom: 0px;
+  letter-spacing: 1px;
+  color: white; }
+
+p {
+  font-size: 16px;
+  color: white;
+  margin-top: 8px;
+  margin-bottom: -1px;
+  line-height: 25px;
+  letter-spacing: 0.5px; }
+
+.boton {
+  display: inline-block;
+  color: #00a99d;
+  font-size: 1em;
+  position: relative;
+  z-index: 1;
+  transition: all 0.5s;
+  cursor: pointer; }
+
+.precio {
+  color: white;
+  font-weight: 700; }
+
 .bangers-regular {
   font-family: "Bangers", system-ui;
   font-weight: 400;

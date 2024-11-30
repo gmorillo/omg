@@ -433,4 +433,57 @@ window.addEventListener('load', function() {
       });
   });
 
+
+/* MENU VIDEO */
+/* const video = document.querySelector(".video-container video");
+const hoverText = document.querySelector(".video-container .hover-text");
+
+video.addEventListener("mouseenter", () => {
+  video.play();
+  hoverText.classList.remove("active");
+});
+
+video.addEventListener("mouseleave", () => {
+  video.pause();
+  hoverText.classList.add("active");
+});
+
+const btn = document.querySelector(".boton");
+const text = document.querySelector(".leer-mas");
+const wrapper = document.querySelector(".wrapper");
+
+btn.addEventListener("click", e => {
+    text.classList.toggle("leer-mas_open");
+    text.classList.contains("leer-mas_open") ? btn.innerHTML = "Ver menos" : btn.innerHTML = "Ver más";
+}); */
+
+// Para los videos y el texto al pasar el ratón
+const videos = document.querySelectorAll(".video-container video");
+const hoverTexts = document.querySelectorAll(".video-container .hover-text");
+
+videos.forEach((video, index) => {
+  const hoverText = hoverTexts[index]; // Obtener el hoverText correspondiente al video
+  video.addEventListener("mouseenter", () => {
+    video.play();
+    hoverText.classList.remove("active");
+  });
+
+  video.addEventListener("mouseleave", () => {
+    video.pause();
+    hoverText.classList.add("active");
+  });
+});
+
+// Para el botón de "ver más" y "ver menos"
+const btns = document.querySelectorAll(".boton");
+const texts = document.querySelectorAll(".leer-mas");
+
+btns.forEach((btn, index) => {
+  const text = texts[index]; // Obtener el texto correspondiente al botón
+  btn.addEventListener("click", () => {
+    text.classList.toggle("leer-mas_open");
+    btn.innerHTML = text.classList.contains("leer-mas_open") ? "Cerrar alérgenos" : "Alérgenos";
+  });
+});
+
   
